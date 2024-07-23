@@ -63,9 +63,8 @@
   </div>
 </template>
 
-
 <script setup>
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 
 const router = useRouter();
@@ -76,7 +75,7 @@ const loginUser = async (event) => {
   const formData = new FormData(event.target);
 
   try {
-    const response = await axios.post('https://busbooking-eyow.onrender.com/api/v1/user/login', {
+    const response = await axios.post('http://localhost:9000/api/v1/user/login', {
       email: formData.get('email'),
       password: formData.get('password'),
     });
@@ -84,9 +83,12 @@ const loginUser = async (event) => {
     if (response.status === 200 && response.data.success) {
       const { token, data } = response.data;
 
+      // Check if the user_id exists in the response
+      const user_id = data.user_id ? data.user_id : data._id; // Prefer user_id if available, fallback to _id
+
       // Store the token and user data in local storage
       localStorage.setItem('token', token);
-      localStorage.setItem('userId', data._id);
+      localStorage.setItem('user_id', user_id); // Use user_id or _id as appropriate
       localStorage.setItem('user', JSON.stringify(data));
 
       console.log('User logged in successfully:', data);
@@ -101,19 +103,16 @@ const loginUser = async (event) => {
       console.error('Login failed:', response.data.message);
       // Handle login error here, such as displaying an error message to the user
     }
-    
   } catch (error) {
     console.error('Login failed:', error);
     // Handle login error here, such as displaying an error message to the user
   }
 };
-
-
-
 </script>
 
 <style scoped>
 /* Add your styles here */
 </style>
+
 
  
