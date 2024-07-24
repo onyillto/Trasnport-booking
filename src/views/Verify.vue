@@ -68,7 +68,7 @@ export default {
         const isRoundTrip = JSON.parse(localStorage.getItem('isRoundTrip'));
         const returnTrip = isRoundTrip ? JSON.parse(localStorage.getItem('returnTrip')) : null;
 
-        const response = await axios.post('http://localhost:9000/api/v1/booking/verify-booking', {
+        const response = await axios.post('https://busbooking-eyow.onrender.com/api/v1/booking/verify-booking', {
           reference: reference,
           trip_id: trip_id,
           user_id: user_id,

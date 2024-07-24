@@ -63,7 +63,7 @@ const registerUser = async (event) => {
   const confirmPassword = formData.get('confirmPassword');
 
   try {
-    const response = await axios.post('http://localhost:9000/api/v1/user/register', {
+    const response = await axios.post('https://busbooking-eyow.onrender.com/api/v1/user/register', {
       fullName,
       email,
       password,
