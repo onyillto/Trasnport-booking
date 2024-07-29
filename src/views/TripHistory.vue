@@ -1,10 +1,11 @@
 <template>
   <div class="trip-list">
+    <div v-if="trips.length === 0" class="no-trips">No trips available</div>
     <div v-for="trip in trips" :key="trip._id" class="trip-card">
       <div class="trip-details">
-        <div class="destination text-green-600 font-bold"><span class=""> Destination</span>:{{ trip.destination }}</div>
-        <div class="departure font-bold"><span class="font-bold">Departure</span> {{ trip.departure }}</div>
-        <div class="time">{{ formatTime(trip.time) }}</div>
+        <div class="destination text-green-600 font-bold"><span class="">Destination</span>: {{ trip.destination }}</div>
+        <div class="departure font-bold"><span class="font-bold">Departure</span>: {{ trip.departure }}</div>
+        <div class="time">{{ formatDateTime(trip.returnDate, trip.time) }}</div>
         <div class="price">₦{{ trip.price }}</div>
       </div>
     </div>
@@ -15,29 +16,53 @@
 export default {
   data() {
     return {
-      trips: [
-        {
-          _id: "66829231d52874518bcdbd43",
-          destination: "Lagos",
-          departure: "Abuja",
-          time: "2024-07-01T09:00:00.000+00:00",
-          price: 7500
-        }
-        // Add more trips as needed
-      ]
+      trips: [] // Initialize as an empty array
     };
   },
-  methods: {
-    formatTime(time) {
-      return new Date(time).toLocaleString("en-NG", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true
-      });
+methods: {
+  formatDateTime(date, time) {
+    const dateTimeString = `${date}T${time}`;
+    const dateTime = new Date(dateTimeString);
+    
+    if (isNaN(dateTime.getTime())) {
+      return "Invalid Date";
     }
+    
+    return dateTime.toLocaleString("en-NG", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true
+    });
+  },
+  loadTripsFromLocalStorage() {
+    const returnTrip = localStorage.getItem('returnTrip');
+    const price = localStorage.getItem('price'); // Retrieve the updated price
+
+    if (returnTrip) {
+      try {
+        const trip = JSON.parse(returnTrip);
+
+        // Use price from returnTrip if available, otherwise use the price from local storage
+        trip.price = trip.price || (price ? parseFloat(price) : trip.price);
+
+        this.trips = [trip]; // Wrap in an array to match the expected structure
+      } catch (error) {
+        console.error("Error parsing return trip data from local storage:", error);
+        this.trips = [];
+      }
+    } else {
+      this.trips = [];
+    }
+  }
+}
+
+,
+  mounted() {
+    // Load trips from local storage when component is mounted
+    this.loadTripsFromLocalStorage();
   }
 };
 </script>
@@ -81,4 +106,11 @@ export default {
   font-size: 1.2rem;
   color: #008cba;
 }
+
+.no-trips {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+}
 </style>
+

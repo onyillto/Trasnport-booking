@@ -44,7 +44,7 @@ export default {
     return {
       trips: [],
       user: {
-        user_id: null, // Initialize user_id as null
+        user_id: null,
         email: '',
         token: ''
       }
@@ -69,97 +69,80 @@ export default {
       return vehicleImages[vehicleType] || '/images/default.jpg';
     },
     toggleReturnDate(trip) {
-      trip.showReturnDate = trip.roundTrip;
-      trip.price = trip.roundTrip ? trip.price * 2 : trip.price / 2;
-      if (!trip.roundTrip) {
-        trip.returnDate = null; // Reset return date if roundTrip is unchecked
+      console.log('Before toggle:', trip.price, trip.roundTrip);
+      if (trip.roundTrip) {
+        trip.showReturnDate = true;
+        trip.price = trip.price * 2;
+      } else {
+        trip.showReturnDate = false;
+        trip.price = trip.price / 2;
+        trip.returnDate = null;
       }
+      console.log('After toggle:', trip.price);
     },
     formatReturnDate(trip) {
       if (trip.returnDate) {
         const date = new Date(trip.returnDate);
-        trip.returnDate = date.toISOString().split('T')[0]; // Format to yyyy-MM-dd
+        trip.returnDate = date.toISOString().split('T')[0];
       }
     },
-    async bookTrip(trip) {
-      try {
-        const user_id = localStorage.getItem('user_id'); // Fetch user_id from local storage
-        if (trip.seatsLeft <= 0) {
-          console.error('No seats available for this trip');
-          return; // Exit early if no seats available
-        }
-        
-        const response = await axios.post('https://busbooking-eyow.onrender.com/api/v1/booking/book-trip', {
-          trip_id: trip.trip_id,
-          user_id: user_id,
-          isRoundTrip: trip.roundTrip,
-          returnTrip: trip.roundTrip ? {
-            destination: trip.destination,
-            departure: trip.departure,
-            time: trip.time,
-            price: trip.price / 2, // Assuming round trip price is twice the single trip price
-            returnDate: trip.returnDate
-          } : null
-        });
+async bookTrip(trip) {
+  try {
+    const user_id = localStorage.getItem('user_id');
+    if (trip.seatsLeft <= 0) {
+      console.error('No seats available for this trip');
+      return;
+    }
+    
+    // Update price for round trip
+    if (trip.roundTrip) {
+      trip.price *= 2; // Double the price for round trip
+    } else {
+      trip.price /= 2; // Halve the price for one-way trip
+    }
 
-        if (response.data.success) {
-          const { authorization_url, reference } = response.data.data.payment;
-          window.location.href = authorization_url;
+    // Save details to local storage
+    localStorage.setItem('price', trip.price); // Save the doubled/adjusted price
+    localStorage.setItem('trip_id', trip.trip_id);
+    localStorage.setItem('user_id', user_id);
+    localStorage.setItem('isRoundTrip', trip.roundTrip);
+    if (trip.roundTrip) {
+      localStorage.setItem('returnTrip', JSON.stringify({
+        destination: trip.destination,
+        departure: trip.departure,
+        time: trip.time,
+        price: trip.price / 2, // Store only the price for one way
+        returnDate: trip.returnDate
+      }));
+    }
 
-          // Save reference for later verification
-          localStorage.setItem('paymentReference', reference);
-          localStorage.setItem('trip_id', trip.trip_id);
-          localStorage.setItem('user_id', user_id);
-          localStorage.setItem('isRoundTrip', trip.roundTrip);
-          if (trip.roundTrip) {
-            localStorage.setItem('returnTrip', JSON.stringify({
-              destination: trip.destination,
-              departure: trip.departure,
-              time: trip.time,
-              price: trip.price / 2,
-              returnDate: trip.returnDate
-            }));
-          }
-        } else {
-          console.error('Failed to initiate booking');
-        }
-      } catch (error) {
-        console.error('Error booking trip:', error);
-      }
-    },
-    async verifyBooking() {
-      try {
-        const reference = localStorage.getItem('paymentReference');
-        const trip_id = localStorage.getItem('trip_id');
-        const user_id = localStorage.getItem('user_id');
-        const isRoundTrip = JSON.parse(localStorage.getItem('isRoundTrip'));
-        const returnTrip = isRoundTrip ? JSON.parse(localStorage.getItem('returnTrip')) : null;
+    const response = await axios.post('https://busbooking-eyow.onrender.com/api/v1/booking/book-trip', {
+      trip_id: trip.trip_id,
+      user_id: user_id,
+      isRoundTrip: trip.roundTrip,
+      returnTrip: trip.roundTrip ? {
+        destination: trip.destination,
+        departure: trip.departure,
+        time: trip.time,
+        price: trip.price / 2, // Ensure price for return trip is correctly set
+        returnDate: trip.returnDate
+      } : null
+    });
 
-        const response = await axios.post('https://busbooking-eyow.onrender.com/api/v1/booking/verify-booking', {
-          reference: reference,
-          trip_id: trip_id,
-          user_id: user_id,
-          isRoundTrip: isRoundTrip,
-          returnTrip: returnTrip
-        });
+    if (response.data.success) {
+      const { authorization_url, reference } = response.data.data.payment;
+      window.location.href = authorization_url;
 
-        if (response.data.success) {
-          console.log('Payment verified and booking completed');
-          // Clear local storage after successful verification
-          localStorage.removeItem('paymentReference');
-          localStorage.removeItem('trip_id');
-          localStorage.removeItem('user_id');
-          localStorage.removeItem('isRoundTrip');
-          if (isRoundTrip) {
-            localStorage.removeItem('returnTrip');
-          }
-        } else {
-          console.error('Failed to verify payment and complete booking');
-        }
-      } catch (error) {
-        console.error('Error verifying payment and booking trip:', error);
-      }
-    },
+      localStorage.setItem('paymentReference', reference);
+    } else {
+      console.error('Failed to initiate booking');
+    }
+  } catch (error) {
+    console.error('Error booking trip:', error);
+  }
+}
+
+,
     async fetchTrips() {
       try {
         const response = await axios.get('https://busbooking-eyow.onrender.com/api/v1/booking/alltrip');
@@ -174,9 +157,8 @@ export default {
     }
   },
   mounted() {
-    this.user.user_id = localStorage.getItem('user_id'); // Initialize user_id from local storage
+    this.user.user_id = localStorage.getItem('user_id');
     this.fetchTrips();
-    // Check if returning from payment gateway
     const urlParams = new URLSearchParams(window.location.search);
     const reference = urlParams.get('reference');
     if (reference) {
@@ -199,6 +181,7 @@ h6 {
   font-family: "Roboto Slab", sans-serif;
 }
 </style>
+
 
 
 
