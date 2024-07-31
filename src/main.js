@@ -38,19 +38,18 @@ const routes = [
     path: "/trips",
     name: "TripList",
     component: TripList,
-    props: (route) => ({ trips: route.params.trips }), // Enable route props
+    
   },
   {
     path: "/triphistory",
     name: "TripHistory",
     component: TripHistory,
-    props: (route) => ({ trips: route.params.trips }), // Enable route props
+    
   },
   {
     path: "/verify",
     name: "Verify",
-    component: Verify,
-    props: (route) => ({ trips: route.params.trips }),
+    component: Verify
   },
 ];
 
