@@ -15,12 +15,12 @@
               class="max-w-lg mb-6 font-sans text-2xl font-bold tracking-tight text-white sm:text-3xl sm:leading-none md:text-center"
             >
               Embark on Adventures with <br class="hidden md:block" />
-              Brit Transit <span class="text-teal-accent-400">Travel</span>
+              Kossi Transit <span class="text-teal-accent-400">Travel</span>
             </h2>
             <p
               class="max-w-xl mb-4 text-base text-lg font-bold text-white md:text-lg"
             >
-              Discover Brit Transit Travel: your gateway to unforgettable
+              Discover Kossi Transit Travel: your gateway to unforgettable
               journeys. Explore our destinations, from sandy beaches to historic
               landmarks. Let us guide you to the world's wonders and create
               lasting memories.

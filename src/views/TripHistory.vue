@@ -3,15 +3,21 @@
     <div v-if="trips.length === 0" class="no-trips">No trips available</div>
     <div v-for="trip in trips" :key="trip._id" class="trip-card">
       <div class="trip-details">
-        <div class="destination text-green-600 font-bold"><span class="">Destination</span>: {{ trip.destination }}</div>
-        <div class="departure font-bold"><span class="font-bold">Departure</span>: {{ trip.departure }}</div>
-        <div class="time">{{ formatDateTime(trip.returnDate, trip.time) }}</div>
+        <div class="destination text-green-600 font-bold">
+          <span>Destination</span>: {{ trip.destination }}
+        </div>
+        <div class="departure font-bold">
+          <span>Departure</span>: {{ trip.departure }}
+        </div>
+        <div class="time">{{ formatDateTime(trip.bookingDate, trip.time) }}</div>
         <div class="price">₦{{ trip.price }}</div>
+        <div class="booking-id font-bold">
+          <span>Booking ID</span>: {{ trip.booking_id }}
+        </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
@@ -19,50 +25,69 @@ export default {
       trips: [] // Initialize as an empty array
     };
   },
-methods: {
-  formatDateTime(date, time) {
-    const dateTimeString = `${date}T${time}`;
-    const dateTime = new Date(dateTimeString);
-    
-    if (isNaN(dateTime.getTime())) {
-      return "Invalid Date";
-    }
-    
-    return dateTime.toLocaleString("en-NG", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true
-    });
-  },
-  loadTripsFromLocalStorage() {
-    const returnTrip = localStorage.getItem('returnTrip');
-    const price = localStorage.getItem('price'); // Retrieve the updated price
-
-    if (returnTrip) {
-      try {
-        const trip = JSON.parse(returnTrip);
-
-        // Use price from returnTrip if available, otherwise use the price from local storage
-        trip.price = trip.price || (price ? parseFloat(price) : trip.price);
-
-        this.trips = [trip]; // Wrap in an array to match the expected structure
-      } catch (error) {
-        console.error("Error parsing return trip data from local storage:", error);
-        this.trips = [];
+  methods: {
+    formatDateTime(date, time) {
+      // Parse the ISO 8601 date string
+      const dateTime = new Date(date);
+      
+      if (isNaN(dateTime.getTime())) {
+        // Return a fallback string if the date is invalid
+        return "Invalid Date";
       }
-    } else {
-      this.trips = [];
-    }
-  }
-}
 
-,
+      // Append time to the parsed date
+      const [hours, minutes, period] = time.split(/[:\s]/);
+      dateTime.setHours(period === 'PM' ? parseInt(hours) + 12 : parseInt(hours), parseInt(minutes));
+      
+      // Format the date and time using toLocaleString
+      return dateTime.toLocaleString("en-NG", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true
+      });
+    },
+    async loadTrips() {
+      const userId = localStorage.getItem('user_id'); // Retrieve user_id from local storage
+      if (!userId) {
+        console.error("User ID not found in local storage.");
+        return;
+      }
+
+      try {
+        console.log('Fetching trips for user_id:', userId); // Debugging log
+
+        const response = await fetch(`https://busbooking-eyow.onrender.com/api/v1/booking/user-trip?user_id=${encodeURIComponent(userId)}`, {
+          method: 'GET', // Correctly using GET method
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch trips.");
+        }
+
+        const data = await response.json();
+        console.log('Fetched data:', data); // Debugging log
+
+        if (data.success) {
+          this.trips = data.data || [];
+        } else {
+          console.error("Failed to fetch trips: ", data.message);
+          this.trips = []; // Ensure trips is set to an empty array in case of error
+        }
+      } catch (error) {
+        console.error("Error fetching trips:", error);
+        this.trips = []; // Ensure trips is set to an empty array in case of error
+      }
+    }
+  },
   mounted() {
-    // Load trips from local storage when component is mounted
-    this.loadTripsFromLocalStorage();
+    // Load trips when component is mounted
+    this.loadTrips();
   }
 };
 </script>
@@ -92,7 +117,7 @@ methods: {
   padding: 16px;
 }
 
-.destination, .departure, .time, .price {
+.destination, .departure, .time, .price, .booking-id {
   margin-bottom: 8px;
   font-size: 1.1rem;
 }
@@ -107,10 +132,16 @@ methods: {
   color: #008cba;
 }
 
+.booking-id {
+  font-weight: bold;
+}
+
 .no-trips {
   text-align: center;
   font-size: 1.2rem;
   color: #888;
 }
 </style>
+
+
 

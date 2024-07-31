@@ -45,11 +45,11 @@
             </li>
             <li>
               <a
-                href="/"
+                href="/trips"
                 aria-label="Our product"
                 title="Our product"
                 class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
-                >Features</a
+                >Trips</a
               >
             </li>
             <li>
@@ -71,14 +71,24 @@
               >
             </li>
             <li>
-              <a
-                href="/register"
+              <button
+                v-if="!userId"
+                @click="redirectToSignUp"
                 class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
                 aria-label="Sign up"
                 title="Sign up"
               >
                 Sign Up
-              </a>
+              </button>
+              <button
+                v-else
+                @click="logout"
+                class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-black transition duration-200 rounded shadow-md bg-red-600 hover:bg-red-800 focus:shadow-outline focus:outline-none"
+                aria-label="Log out"
+                title="Log out"
+              >
+                Log Out
+              </button>
             </li>
           </ul>
           <div class="lg:hidden">
@@ -163,11 +173,11 @@
                     </li>
                     <li>
                       <a
-                        href="/"
+                        href="/trips"
                         aria-label="Our product"
                         title="Our product"
                         class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                        >Features</a
+                        >Trips</a
                       >
                     </li>
                     <li>
@@ -189,31 +199,30 @@
                       >
                     </li>
                     <li>
-                      <a
-                        href="/"
-                        class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-black transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+                      <button
+                        v-if="!userId"
+                        @click="redirectToSignUp"
+                        class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
                         aria-label="Sign up"
                         title="Sign up"
                       >
                         Sign Up
-                      </a>
+                      </button>
+                      <button
+                        v-else
+                        @click="logout"
+                        class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-black transition duration-200 rounded shadow-md bg-red-600 hover:bg-red-800 focus:shadow-outline focus:outline-none"
+                        aria-label="Log out"
+                        title="Log out"
+                      >
+                        Log Out
+                      </button>
                     </li>
                   </ul>
                 </nav>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="relative ">
-      <!-- Main content, adjust the top margin to accommodate the navbar -->
-      <img src="https://i.pinimg.com/564x/ed/a8/57/eda857cc0cf228f90a6bad37bccb2eeb.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260" class="absolute inset-0 object-cover w-full h-full" alt="" />
-      <div class="relative bg-gray-900 bg-opacity-75">
-        <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-          <!-- Rest of your content -->
         </div>
       </div>
     </div>
@@ -224,8 +233,19 @@
 export default {
   data() {
     return {
-      isMenuOpen: false,
+      userId: localStorage.getItem('user_id'),
+      isMenuOpen: false
     };
+  },
+  methods: {
+    redirectToSignUp() {
+      this.$router.push('/register');
+    },
+    logout() {
+      localStorage.removeItem('user_id');
+      // Reload the page to update the state
+      window.location.reload();
+    },
   },
 };
 </script>
@@ -233,3 +253,4 @@ export default {
 <style scoped>
 /* Add your styles here */
 </style>
+

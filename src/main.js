@@ -48,7 +48,9 @@ const routes = [
   },
   {
     path: "/verify",
+    name: "Verify",
     component: Verify,
+    props: (route) => ({ trips: route.params.trips }),
   },
 ];
 

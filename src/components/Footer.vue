@@ -9,35 +9,22 @@
                 <li>
                   <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">News</a>
                 </li>
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">World</a>
-                </li>
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Games</a>
-                </li>
+
                 <li>
                   <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">References</a>
                 </li>
               </ul>
             </div>
             <div>
-              <p class="font-medium tracking-wide text-gray-300">Apples</p>
+              <p class="font-medium tracking-wide text-gray-300">Kossi Transport</p>
               <ul class="mt-2 space-y-2">
                 <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Web</a>
+                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Transport</a>
                 </li>
                 <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">eCommerce</a>
+                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Bookimgs</a>
                 </li>
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Business</a>
-                </li>
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Entertainment</a>
-                </li>
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Portfolio</a>
-                </li>
+
               </ul>
             </div>
             
@@ -62,13 +49,13 @@
               </button>
             </form>
             <p class="mt-4 text-sm text-gray-500">
-              Bacon ipsum dolor amet short ribs pig sausage prosciuto chicken spare ribs salami.
+             We will take you to your destination and make sure you are great
             </p>
           </div>
         </div>
         <div class="flex flex-col justify-between pt-5 pb-10 border-t border-gray-800 sm:flex-row">
           <p class="text-sm text-gray-500">
-            © Copyright 2020 Lorem Inc. All rights reserved.
+            © Copyright 2020 Kossi Transport. All rights reserved.
           </p>
           <div class="flex items-center mt-4 space-x-4 sm:mt-0">
             <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-teal-accent-400">

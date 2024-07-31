@@ -99,6 +99,11 @@ const loginUser = async (event) => {
       } else {
         router.push('/');  // Redirect to user profile page
       }
+
+      // Reload the page after 3 seconds
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     } else {
       console.error('Login failed:', response.data.message);
       // Handle login error here, such as displaying an error message to the user
@@ -113,6 +118,7 @@ const loginUser = async (event) => {
 <style scoped>
 /* Add your styles here */
 </style>
+
 
 
  
