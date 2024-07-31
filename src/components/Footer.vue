@@ -40,42 +40,9 @@
                 </li>
               </ul>
             </div>
+            
             <div>
-              <p class="font-medium tracking-wide text-gray-300">Cherry</p>
-              <ul class="mt-2 space-y-2">
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Media</a>
-                </li>
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Brochure</a>
-                </li>
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Nonprofit</a>
-                </li>
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Educational</a>
-                </li>
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Projects</a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <p class="font-medium tracking-wide text-gray-300">Business</p>
-              <ul class="mt-2 space-y-2">
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Infopreneur</a>
-                </li>
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Personal</a>
-                </li>
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Wiki</a>
-                </li>
-                <li>
-                  <a href="/" class="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-200">Forum</a>
-                </li>
-              </ul>
+            
             </div>
           </div>
           <div class="md:max-w-md lg:col-span-2">
