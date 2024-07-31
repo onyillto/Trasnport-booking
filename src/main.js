@@ -36,19 +36,19 @@ const routes = [
   },
   {
     path: "/trips",
-    name: "TripList",
+    
     component: TripList,
     
   },
   {
     path: "/triphistory",
-    name: "TripHistory",
+   
     component: TripHistory,
     
   },
   {
     path: "/verify",
-    name: "Verify",
+   
     component: Verify
   },
 ];
