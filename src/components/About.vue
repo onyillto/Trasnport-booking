@@ -6,7 +6,7 @@
             ABOUT <span class="text-blue-600">US</span> 
           </h2>
           <p class="mb-5 text-base text-gray-700 md:text-lg md:text-center">
-            Welcome to Kossit Travels, your gateway to unforgettable journeys around the globe. At Wanderlust, we're not just about booking trips; we're about curating experiences that leave you breathless and memories that last a lifetime. Whether you're seeking a relaxing beach getaway, an adrenaline-fueled adventure, or a cultural immersion in far-off lands, our dedicated team is here to turn your travel dreams into reality. Let's embark on this extraordinary journey together. Your next adventure awaits!  </p>
+            Welcome to Jennifer Travels, your gateway to unforgettable journeys around the globe. At Wanderlust, we're not just about booking trips; we're about curating experiences that leave you breathless and memories that last a lifetime. Whether you're seeking a relaxing beach getaway, an adrenaline-fueled adventure, or a cultural immersion in far-off lands, our dedicated team is here to turn your travel dreams into reality. Let's embark on this extraordinary journey together. Your next adventure awaits!  </p>
           <div class="mb-10 text-center md:mb-16 lg:mb-20">
             <a
               href="/"
