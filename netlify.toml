@@ -1,4 +1,3 @@
-[build]
   [build]
   publish = "src"
   command = "npm run build"
