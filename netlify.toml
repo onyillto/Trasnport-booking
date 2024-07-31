@@ -1,14 +1,7 @@
 [build]
-  publish = "dist" # 
+  [build]
+  publish = "src"
   command = "npm run build"
 
-[[redirects]]
-  from = "/https://main--grand-seahorse-781691.netlify.app/verify?"
-  to = "/verify"
-  status = 301
-  force = true
+  
 
-[[redirects]]
-  from = "/another-old-path"
-  to = "/another-new-path"
-  status = 302
