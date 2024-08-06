@@ -68,8 +68,8 @@ export default {
   methods: {
     getVehicleImage(vehicleType) {
       const vehicleImages = {
-        Bus: 'https://st2.depositphotos.com/1358992/43886/i/450/depositphotos_438868626-stock-photo-white-minibus-isolated-white-background.jpg',
-        'Luxurious-Bus': 'https://nairametrics.com/wp-content/uploads/2023/08/luxury-bus-1-612x375.jpg',
+        Bus: 'https://ticket-simply-africa-cms.s3.af-south-1.amazonaws.com/uploads/bcc/cms/asset/avatar/67765/gallery_g5.jpg',
+        'Luxurious-Bus': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQut1HjoCpMwT3UUMR_-RuYPwt2OuEARI5bNQ&s',
         Travel: '/images/travel.jpg'
       };
       return vehicleImages[vehicleType] || '/images/default.jpg';
