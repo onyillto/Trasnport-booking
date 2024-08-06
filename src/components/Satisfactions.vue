@@ -5,7 +5,7 @@
           <h2 class="text-3xl font-bold sm:text-4xl text-center">Explore Our Features</h2>
   
           <p class="mt-4 text-gray-300 text-center text-lg">
-            Embark on a Journey of Comfort and Convenience with Jennifer Transit.
+            Embark on a Journey of Comfort and Convenience with J-Transit.
           </p>
         </div>
   

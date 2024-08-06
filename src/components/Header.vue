@@ -20,7 +20,7 @@
             <p
               class="max-w-xl mb-4 text-base text-lg font-bold text-white md:text-lg"
             >
-              Discover Kossi Transit Travel: your gateway to unforgettable
+              Discover J-Transit Travel: your gateway to unforgettable
               journeys. Explore our destinations, from sandy beaches to historic
               landmarks. Let us guide you to the world's wonders and create
               lasting memories.
