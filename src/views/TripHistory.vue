@@ -2,9 +2,10 @@
   <div class="trip-list">
     <div v-if="!trips.length" class="no-trips">No trips available</div>
     <div v-else>
-      <div class="user-full-name">Full Name: {{ fullName }}</div>
+      
       <div v-for="trip in trips" :key="trip._id" class="trip-card">
         <div class="trip-details">
+          <div class="user-full-name">Full Name: {{ fullName }}</div>
           <div class="destination text-green-600 font-bold">
             <span>Destination</span>: {{ trip.destination }}
           </div>
