@@ -11,7 +11,6 @@
           <div class="departure font-bold">
             <span>Departure</span>: {{ trip.departure }}
           </div>
-          
           <div class="time">{{ formatDateTime(trip.bookingDate, trip.time) }}</div>
           <div class="price">₦{{ trip.price }}</div>
           <div class="booking-id font-bold">
@@ -22,48 +21,81 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
     return {
-      fullName: '', // Initialize as empty
+      fullName: '', // Add fullName to data
       trips: [] // Initialize as an empty array
     };
   },
-  mounted() {
-    // Fetch data when the component is mounted
-    this.fetchTrips();
-  },
   methods: {
-    async fetchTrips() {
+    formatDateTime(date, time) {
+      // Parse the ISO 8601 date string
+      const dateTime = new Date(date);
+      
+      if (isNaN(dateTime.getTime())) {
+        // Return a fallback string if the date is invalid
+        return "Invalid Date";
+      }
+
+      // Append time to the parsed date
+      const [hours, minutes, period] = time.split(/[:\s]/);
+      dateTime.setHours(period === 'PM' ? parseInt(hours) + 12 : parseInt(hours), parseInt(minutes));
+      
+      // Format the date and time using toLocaleString
+      return dateTime.toLocaleString("en-NG", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true
+      });
+    },
+    async loadTrips() {
+      const userId = localStorage.getItem('user_id'); // Retrieve user_id from local storage
+      if (!userId) {
+        console.error("User ID not found in local storage.");
+        return;
+      }
+
       try {
-        const response = await fetch('/api/trips'); // Replace with your API endpoint
-        const result = await response.json();
-        if (result.success) {
-          this.fullName = result.data.fullName;
-          this.trips = result.data.trips;
+        console.log('Fetching trips for user_id:', userId); // Debugging log
+
+        const response = await fetch(`https://busbooking-eyow.onrender.com/api/v1/booking/user-trip?user_id=${encodeURIComponent(userId)}`, {
+          method: 'GET', // Correctly using GET method
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch trips.");
+        }
+
+        const data = await response.json();
+        console.log('Fetched data:', data); // Debugging log
+
+        if (data.success) {
+          this.fullName = data.data.fullName || ''; // Set fullName from response
+          this.trips = data.data.trips || [];
         } else {
-          console.error('Failed to fetch trips:', result.message);
+          console.error("Failed to fetch trips: ", data.message);
+          this.trips = []; // Ensure trips is set to an empty array in case of error
         }
       } catch (error) {
-        console.error('Error fetching trips:', error);
+        console.error("Error fetching trips:", error);
+        this.trips = []; // Ensure trips is set to an empty array in case of error
       }
-    },
-    formatDateTime(date, time) {
-      // Parse the ISO 8601 date string and format it
-      const dateTime = new Date(date);
-      const formattedDate = dateTime.toLocaleDateString(); // Format as needed
-      return `${formattedDate} ${time}`;
     }
+  },
+  mounted() {
+    // Load trips when component is mounted
+    this.loadTrips();
   }
 };
 </script>
-
-<style>
-/* Add your CSS styling here */
-</style>
-
 <style scoped>
 .trip-list {
   display: grid;
