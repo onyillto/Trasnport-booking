@@ -69,7 +69,7 @@ export default {
     getVehicleImage(vehicleType) {
       const vehicleImages = {
         Bus: 'https://ticket-simply-africa-cms.s3.af-south-1.amazonaws.com/uploads/bcc/cms/asset/avatar/67765/gallery_g5.jpg',
-        'Luxurious-Bus': 'https://www.abcupperclass.co.tz/images/aboutabc.png',
+        'Luxurious-Bus': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQut1HjoCpMwT3UUMR_-RuYPwt2OuEARI5bNQ&s',
         Travel: '/images/travel.jpg'
       };
       return vehicleImages[vehicleType] || '/images/default.jpg';
