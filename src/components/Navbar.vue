@@ -30,7 +30,7 @@
             </svg>
             <span
               class="ml-2 text-xl font-bold tracking-wide text-gray-100 uppercase"
-              >Company</span
+              >J-Transit</span
             >
           </a>
           <ul class="flex items-center hidden space-x-8 lg:flex">
@@ -140,7 +140,7 @@
                       </svg>
                       <span
                         class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase"
-                        >Company</span
+                        >J-Transit</span
                       >
                     </a>
                   </div>
