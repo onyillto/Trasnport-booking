@@ -2,10 +2,9 @@
   <div class="trip-list">
     <div v-if="!trips.length" class="no-trips">No trips available</div>
     <div v-else>
-      
+      <div class="user-full-name">Full Name: {{ fullName }}</div>
       <div v-for="trip in trips" :key="trip._id" class="trip-card">
         <div class="trip-details">
-          <div class="user-full-name">Full Name: {{ fullName }}</div>
           <div class="destination text-green-600 font-bold">
             <span>Destination</span>: {{ trip.destination }}
           </div>
@@ -36,31 +35,20 @@ export default {
     this.fetchTrips();
   },
   methods: {
-  async fetchTrips() {
-  try {
-    const response = await fetch('/api/trips'); // Replace with your API endpoint
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    
-    // Check content type to confirm it’s JSON
-    const contentType = response.headers.get('Content-Type');
-    if (contentType && contentType.includes('application/json')) {
-      const result = await response.json();
-      if (result.success) {
-        this.fullName = result.data.fullName;
-        this.trips = result.data.trips;
-      } else {
-        console.error('Failed to fetch trips:', result.message);
+    async fetchTrips() {
+      try {
+        const response = await fetch('/api/trips'); // Replace with your API endpoint
+        const result = await response.json();
+        if (result.success) {
+          this.fullName = result.data.fullName;
+          this.trips = result.data.trips;
+        } else {
+          console.error('Failed to fetch trips:', result.message);
+        }
+      } catch (error) {
+        console.error('Error fetching trips:', error);
       }
-    } else {
-      throw new Error('Response is not JSON');
-    }
-  } catch (error) {
-    console.error('Error fetching trips:', error);
-  }
-}
-,
+    },
     formatDateTime(date, time) {
       // Parse the ISO 8601 date string and format it
       const dateTime = new Date(date);
@@ -126,7 +114,6 @@ export default {
 }
 
 .user-full-name {
-  color: #302525;
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 20px;
