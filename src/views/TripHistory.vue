@@ -11,7 +11,7 @@
           <div class="departure font-bold">
             <span>Departure</span>: {{ trip.departure }}
           </div>
-          <div class="price">{{ fullName }}</div>
+          
           <div class="time">{{ formatDateTime(trip.bookingDate, trip.time) }}</div>
           <div class="price">₦{{ trip.price }}</div>
           <div class="booking-id font-bold">
