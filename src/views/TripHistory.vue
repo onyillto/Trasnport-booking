@@ -1,18 +1,21 @@
 <template>
   <div class="trip-list">
-    <div v-if="trips.length === 0" class="no-trips">No trips available</div>
-    <div v-for="trip in trips" :key="trip._id" class="trip-card">
-      <div class="trip-details">
-        <div class="destination text-green-600 font-bold">
-          <span>Destination</span>: {{ trip.destination }}
-        </div>
-        <div class="departure font-bold">
-          <span>Departure</span>: {{ trip.departure }}
-        </div>
-        <div class="time">{{ formatDateTime(trip.bookingDate, trip.time) }}</div>
-        <div class="price">₦{{ trip.price }}</div>
-        <div class="booking-id font-bold">
-          <span>Booking ID</span>: {{ trip.booking_id }}
+    <div v-if="!trips.length" class="no-trips">No trips available</div>
+    <div v-else>
+      <div class="user-full-name">Full Name: {{ fullName }}</div>
+      <div v-for="trip in trips" :key="trip._id" class="trip-card">
+        <div class="trip-details">
+          <div class="destination text-green-600 font-bold">
+            <span>Destination</span>: {{ trip.destination }}
+          </div>
+          <div class="departure font-bold">
+            <span>Departure</span>: {{ trip.departure }}
+          </div>
+          <div class="time">{{ formatDateTime(trip.bookingDate, trip.time) }}</div>
+          <div class="price">₦{{ trip.price }}</div>
+          <div class="booking-id font-bold">
+            <span>Booking ID</span>: {{ trip.booking_id }}
+          </div>
         </div>
       </div>
     </div>
@@ -22,6 +25,7 @@
 export default {
   data() {
     return {
+      fullName: '', // Add fullName to data
       trips: [] // Initialize as an empty array
     };
   },
@@ -74,7 +78,8 @@ export default {
         console.log('Fetched data:', data); // Debugging log
 
         if (data.success) {
-          this.trips = data.data || [];
+          this.fullName = data.data.fullName || ''; // Set fullName from response
+          this.trips = data.data.trips || [];
         } else {
           console.error("Failed to fetch trips: ", data.message);
           this.trips = []; // Ensure trips is set to an empty array in case of error
@@ -91,7 +96,6 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 .trip-list {
   display: grid;
@@ -140,6 +144,12 @@ export default {
   text-align: center;
   font-size: 1.2rem;
   color: #888;
+}
+
+.user-full-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 </style>
 
